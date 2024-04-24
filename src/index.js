@@ -7,15 +7,17 @@ dotenv.config({ path: "./.env" })
 dbConnection()
     .then(() => {
 
-        app.on("error", () => {
+        app.on("error", (error) => {
             console.log("App is not running after db connection");
+            throw error;
         })
         app.listen(process.env.PORT || 8000, () => {
             console.log("App is running at port >> ", process.env.PORT);
         })
     })
     .catch((error) => {
-        console.log("Some error occured >>> ", error);
+        console.log("MongoDB connection error >>> ", error);
+        throw error;
     })
 
 
